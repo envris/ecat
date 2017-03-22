@@ -1,0 +1,2673 @@
+<?xml version="1.0"?>
+<!--
+ Copyright (c) 2016 Commonwealth of Australia as represented by
+ the Department of the Environment and Energy
+
+ This file is free software: you may copy, redistribute and/or modify it
+ under the terms of the GPL v2 as published by the Free Software Foundation.
+
+ This file is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+ FOR A PARTICULAR PURPOSE. See the GPL v2 for more details.
+
+ You should have received a copy of the GPL v2 along with this program.
+ If not, see <http://www.gnu.org/licenses/gpl-2.0.html>.
+-->
+
+<!--Order of keys in datapoint (name DP_L0_DOMAIN_CODE)
+
+    DATA_POINT_ID
+    CHEMICAL_ID
+    DP_L1_KINGDOM_CODE
+    CREATED_BY
+    CREATED_DATE
+    DP_QUANT_VALUE1
+    DP_QUANT_VALUE2
+    DP_CLOB1
+    DP_INTEGER1
+    DP_CONFIDENTIAL1_YN
+    DP_CONFIDENTIAL2_YN
+    DP_QUAL_VALUE1
+    DP_QUAL_VALUE2
+    DP_UNIT_CODE1
+    DP_UNIT_CODE2
+
+Order of keys in qualifier (name Q_L0_DOMAIN_CODE)
+
+    QUALIFIER_ID
+    DATA_POINT_ID
+    Q_L1_KINGDOM_CODE
+    CREATED_BY
+    CREATED_DATE
+    Q_QUANT_VALUE1
+    Q_QUANT_VALUE2
+    Q_CLOB1
+    Q_INTEGER1
+    Q_CONFIDENTIAL1_YN
+    Q_CONFIDENTIAL2_YN
+    Q_QUAL_VALUE1
+    Q_QUAL_VALUE2
+    Q_UNIT_CODE1
+    Q_UNIT_CODE2
+-->
+
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+  <start>
+    <element name="ROOT">
+      <zeroOrMore>
+        <element name="CHEMICAL">
+          <ref name="CHEMICAL_ID"/>
+          <ref name="CREATED_BY"/>
+          <ref name="CREATED_DATE"/>
+          <interleave>
+            <zeroOrMore>
+              <element name="OnDSL">
+                <!--On DSL-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="OECDHPV">
+                <!--OECD HPV chemical-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+	                </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="MeltingPoint">
+                <!--Melting point (deg C)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>deg C</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>deg C</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>deg C</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>deg C</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>deg C</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Volume">
+                <!--Volume (T) (8 May 2013)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>tonne</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Group">
+                <!--Group-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="WaterSolubility">
+                <!--Water solubility  (mg/L)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>mg/L</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_EXCEPTION"/>
+                    <choice>
+                      <element name="DP_QUAL_VALUE1">
+                        <value>Miscible</value>
+                      </element>
+                    </choice>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="IonisableInTheEnvironment">
+                <!--Ionisable in the environment?-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="PECRiver">
+                <!--PEC(river) (ug/L ; 8 May 2013)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="AssessmentFactorNotes">
+                <!--Assessment Factor Notes-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Comments">
+                <!--Comments-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="BatchNo">
+                <!--Batch no.-->
+                <ref name="DP_INTEGER"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="DefaultVolume">
+                <!--Default volume? (8 May 2013)-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="SPINUsesUC62">
+                <!--SPIN Uses (UC62)-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                  <optional>
+                    <element name="spinVolume">
+                      <!--SPIN Volume-->
+                      <choice>
+                        <group>
+                          <ref name="Q_FLOAT_SINGLE"/>
+                          <element name="Q_UNIT_CODE1">
+                            <value>tonne</value>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_GT"/>
+                          <element name="Q_UNIT_CODE1">
+                            <value>tonne</value>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_LT"/>
+                          <element name="Q_UNIT_CODE2">
+                            <value>tonne</value>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_RANGE"/>
+                          <choice>
+                            <group>
+                              <element name="Q_UNIT_CODE1">
+                                <value>tonne</value>
+                              </element>
+                              <element name="Q_UNIT_CODE2">
+                                <value>tonne</value>
+                              </element>
+                            </group>
+                          </choice>
+                        </group>
+                      </choice>
+                    </element>
+                  </optional>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="NICNAS_ID">
+                <!--NICNAS ID-->
+                <ref name="DP_INTEGER"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="PNEC">
+                <!--PNEC (ug/L)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="MitigatedPEC">
+                <!--Mitigated PEC(river) (ug/L)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>ug/L</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>ug/L</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Rotterdam">
+                <!--Rotterdam-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="AICSName">
+                <!--AICS Name-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Assessor">
+                <!--Assessor-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="HVICLUse">
+                <!--AHVICL Uses (2006)-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="EDCUSEPA">
+                <!--EDC (US EPA)-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="P">
+                <!--Persistent?-->
+                <ref name="DP_VARCHAR2CHOICE"/>
+                <element name="DP_QUAL_VALUE1">
+                  <choice>
+                    <value>Y</value>
+                    <value>N</value>
+                    <value>P*</value>
+                    <value>Uncertain</value>
+                  </choice>
+                </element>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="RQ">
+                <!--RQ-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Endpoint">
+                <!--Endpoint (mg/L)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>mg/L</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>mg/L</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_EXCEPTION"/>
+                    <choice>
+                      <element name="DP_QUAL_VALUE1">
+                        <value>No effects at saturation</value>
+                      </element>
+                    </choice>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <oneOrMore>
+                    <element name="PIVOTAL">
+                      <!--Pivotal endpoint?-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <optional>
+                    <element name="acuteOrChronic">
+                      <!--Acute or chronic endpoint?-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="SAR">
+                      <!--SAR-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="trophicLevel">
+                      <!--Trophic Level-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="measurementType">
+                      <!--Measurement type (Measured, Calculated, Read-across, Analogue)-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="testGuideline">
+                      <!--Test guideline-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="Species">
+                      <!--Species-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="endpointName">
+                      <!--Endpoint name-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </optional>
+                  <optional>
+                    <element name="duration">
+                      <!--Test duration-->
+                      <choice>
+                        <group>
+                          <ref name="Q_FLOAT_SINGLE"/>
+                          <element name="Q_UNIT_CODE1">
+                            <choice>
+                              <value>hour</value>
+                              <value>day</value>
+                            </choice>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_GT"/>
+                          <element name="Q_UNIT_CODE1">
+                            <choice>
+                              <value>hour</value>
+                              <value>day</value>
+                            </choice>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_LT"/>
+                          <element name="Q_UNIT_CODE2">
+                            <choice>
+                              <value>hour</value>
+                              <value>day</value>
+                            </choice>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_RANGE"/>
+                          <choice>
+                            <group>
+                              <element name="Q_UNIT_CODE1">
+                                <value>hour</value>
+                              </element>
+                              <element name="Q_UNIT_CODE2">
+                                <value>hour</value>
+                              </element>
+                            </group>
+                            <group>
+                              <element name="Q_UNIT_CODE1">
+                                <value>day</value>
+                              </element>
+                              <element name="Q_UNIT_CODE2">
+                                <value>day</value>
+                              </element>
+                            </group>
+                          </choice>
+                        </group>
+                      </choice>
+                    </element>
+                  </optional>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="DSL_P">
+                <!--DSL P-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="MolWeight">
+                <!--Molecular weight (g/mol)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>g/mol</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>g/mol</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>g/mol</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>g/mol</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>g/mol</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="highConcernUseForEnvironment">
+                <!--High concern use for environment?-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="ObsBOD301C">
+                <!--Obs. BOD (301C)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="DetailedSPINUses">
+                <!--Detailed SPIN Uses-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                  <optional>
+                    <element name="spinVolume">
+                      <!--SPIN Volume-->
+                      <choice>
+                        <group>
+                          <ref name="Q_FLOAT_SINGLE"/>
+                          <element name="Q_UNIT_CODE1">
+                            <value>tonne</value>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_GT"/>
+                          <element name="Q_UNIT_CODE1">
+                            <value>tonne</value>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_LT"/>
+                          <element name="Q_UNIT_CODE2">
+                            <value>tonne</value>
+                          </element>
+                        </group>
+                        <group>
+                          <ref name="Q_FLOAT_RANGE"/>
+                          <choice>
+                            <group>
+                              <element name="Q_UNIT_CODE1">
+                                <value>tonne</value>
+                              </element>
+                              <element name="Q_UNIT_CODE2">
+                                <value>tonne</value>
+                              </element>
+                            </group>
+                          </choice>
+                        </group>
+                      </choice>
+                    </element>
+                  </optional>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Montreal">
+                <!--Montreal-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="logKow">
+                <!--log Kow-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Status">
+                <!--Assessment Status-->
+                <ref name="DP_VARCHAR2CHOICE"/>
+                <element name="DP_QUAL_VALUE1">
+                  <choice>
+                    <value>Assessment - T1</value>
+                    <value>Complete - T1</value>
+                    <value>Complete - T2</value>
+                    <value>Excluded - T1</value>
+                    <value>Grouped - T1</value>
+                    <value>Grouped - T2</value>
+                    <value>Initial Review - T1</value>
+                    <value>Peer Review - T1</value>
+                    <value>Peer Review - T2</value>
+                    <value>Published - T1</value>
+                    <value>Published - T2</value>
+                    <value>Ungrouped - T1</value>
+                    <value>Ungrouped - T2</value>
+		    <value>Ungrouped - T3</value>
+		    <value>Revision - T1</value>
+		    <value>Assessment - T2</value>
+		    <value>Initial Review - T2</value>
+		    <value>Revision - T2</value>
+		    <value>Prioritised - T1</value>
+		    <value>Prioritised - T2</value>
+		    <value>Prioritised - T3</value>
+                  </choice>
+                </element>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="T">
+                <!--Toxic?-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="DSL_B">
+                <!--DSL B-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="AnnexeXIVREACH">
+                <!--REACH (SVHCs)-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="SMILES">
+                <!--SMILES String-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="degradantSMILES">
+                <!--Degradant SMILES-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="PrimaryHalfLifeWater">
+                <!--Primary halflife in water (days; Catalogic 301C)-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="SGG">
+                <!--SGG-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="B">
+                <!--Bioaccumulative?-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="ReasonsForPCategorisation">
+                <!--Reasons for Categorisation (P)-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="EDCEurope">
+                <!--EDC (Europe)-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="HVICLRange">
+                <!--AHVICL Threshold Range (2006)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>tonne</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>tonne</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Conclusion">
+                <!--Assessment conclusion-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="IMAPStatus">
+                <!--IMAP Status-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="ChemicalClass">
+                <!--Chemical class-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="VapourPressure">
+                <!--Vapour pressure (Pa)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>Pa</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>Pa</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                    <element name="DP_UNIT_CODE2">
+                      <value>Pa</value>
+                    </element>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                    <element name="DP_UNIT_CODE1">
+                      <value>Pa</value>
+                    </element>
+                    <element name="DP_UNIT_CODE2">
+                      <value>Pa</value>
+                    </element>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="MolFormula">
+                <!--Molecular formula-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="DSL_iT">
+                <!--DSL iT-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="PhysChemNotes">
+                <!--Phys Chem Notes-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="ReasonsForBCategorisation">
+                <!--Reasons for Categorisation (B)-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="CASNUMBER">
+                <!--CAS-RN-->
+                <ref name="DP_INTEGER"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="pKa">
+                <!--pKa-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="InternalNotes">
+                <!--Internal Notes (not for publication)-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="ToxicityNotes">
+                <!--Toxicity Notes-->
+                <ref name="DP_CLOB"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="RMF">
+                <!--Release Mitigation Factor-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="CalcBOD301CCatalogic">
+                <!--BOD (301C)-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="AssessmentFactor">
+                <!--Assessment factor-->
+                <choice>
+                  <group>
+                    <ref name="DP_FLOAT_SINGLE"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_GT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_LT"/>
+                  </group>
+                  <group>
+                    <ref name="DP_FLOAT_RANGE"/>
+                  </group>
+                </choice>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="CommonName">
+                <!--Common name-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="ReasonableWorstCaseExposureScenarioAppropriate">
+                <!--Reasonable worst case exposure scenario appropriate?-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Perfluorinated">
+                <!--Perfluorinated? (NICNAS master list 12 Oct 2012)-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Stockholm">
+                <!--Stockholm-->
+                <ref name="DP_YN"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            <zeroOrMore>
+              <element name="Tag">
+                <!--Tag-->
+                <ref name="DP_VARCHAR2"/>
+                <interleave>
+                  <oneOrMore>
+                    <element name="ACTIVE">
+                      <!--Active-->
+                      <ref name="Q_YN"/>
+                    </element>
+                  </oneOrMore>
+                  <zeroOrMore>
+                    <element name="COMMENT">
+                      <!--Comment-->
+                      <ref name="Q_CLOB"/>
+                    </element>
+                  </zeroOrMore>
+                  <zeroOrMore>
+                    <element name="Citation">
+                      <!--Citation-->
+                      <ref name="Q_VARCHAR2"/>
+                    </element>
+                  </zeroOrMore>
+                </interleave>
+              </element>
+            </zeroOrMore>
+            
+          </interleave>
+        </element>
+      </zeroOrMore>
+    </element>
+  </start>
+  <define name="CHEMICAL_ID">
+    <element name="CHEMICAL_ID">
+      <choice>
+        <data type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+        <value>AUTO</value>
+      </choice>
+    </element>
+  </define>
+  <define name="CREATED_BY">
+    <element name="CREATED_BY">
+      <data type="string" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+  </define>
+  <define name="CREATED_DATE">
+    <element name="CREATED_DATE">
+      <choice>
+        <data type="dateTime" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+        <value>AUTO</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DATA_POINT_ID">
+    <element name="DATA_POINT_ID">
+      <choice>
+        <data type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+        <value>AUTO</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DP_CONFIDENTIAL1_YN">
+    <element name="DP_CONFIDENTIAL1_YN">
+      <choice>
+        <value>Y</value>
+        <value>N</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DP_CONFIDENTIAL2_YN">
+    <element name="DP_CONFIDENTIAL2_YN">
+      <choice>
+        <value>Y</value>
+        <value>N</value>
+      </choice>
+    </element>
+  </define>
+  <define name="Q_CONFIDENTIAL1_YN">
+    <element name="Q_CONFIDENTIAL1_YN">
+      <choice>
+        <value>Y</value>
+        <value>N</value>
+      </choice>
+    </element>
+  </define>
+  <define name="Q_CONFIDENTIAL2_YN">
+    <element name="Q_CONFIDENTIAL2_YN">
+      <choice>
+        <value>Y</value>
+        <value>N</value>
+      </choice>
+    </element>
+  </define>
+  <define name="QUALIFIER_ID">
+    <element name="QUALIFIER_ID">
+      <choice>
+        <data type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+        <value>AUTO</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DPHEADER">
+    <ref name="DATA_POINT_ID"/>
+    <ref name="CHEMICAL_ID"/>
+  </define>
+  <define name="FOOTER">
+    <ref name="CREATED_BY"/>
+    <ref name="CREATED_DATE"/>
+  </define>
+  <define name="QHEADER">
+    <ref name="QUALIFIER_ID"/>
+    <ref name="DATA_POINT_ID"/>
+  </define>
+  <!-- Put all type definitions after YN-->
+  <define name="DP_YN">
+    <!-- Yes or no -->
+    <ref name="DPHEADER"/>
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_YN</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+    <element name="DP_QUAL_VALUE1">
+      <choice>
+        <value>Y</value>
+        <value>N</value>
+        <value>Uncertain</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DP_CLOB">
+    <ref name="DPHEADER"/>
+    <!-- CLOB type -->
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_CLOB</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="DP_CLOB1">
+      <data type="string" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="DP_VARCHAR2">
+    <ref name="DPHEADER"/>
+    <!-- VARCHAR2 type -->
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_VARCHAR2</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+    <element name="DP_QUAL_VALUE1">
+      <data type="string" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+  </define>
+  <define name="DP_INTEGER">
+    <ref name="DPHEADER"/>
+    <!-- integer type -->
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_INTEGER</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="DP_INTEGER1">
+      <data type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="DP_VARCHAR2CHOICE">
+    <ref name="DPHEADER"/>
+    <!-- VARCHAR2CHOICE type -->
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_VARCHAR2CHOICE</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="DP_FLOAT_SINGLE">
+    <!-- single float. -->
+    <ref name="DPHEADER"/>
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="DP_QUANT_VALUE1">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="DP_FLOAT_GT">
+    <!-- float, greater than or greater than or equal to.-->
+    <ref name="DPHEADER"/>
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="DP_QUANT_VALUE1">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+    <element name="DP_QUAL_VALUE1">
+      <choice>
+        <value>&gt;</value>
+        <value>&gt;=</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DP_FLOAT_LT">
+    <!-- float, less than or less than or equal to.-->
+    <ref name="DPHEADER"/>
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="DP_QUANT_VALUE2">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="DP_CONFIDENTIAL2_YN"/>
+    <element name="DP_QUAL_VALUE2">
+      <choice>
+        <value>&lt;</value>
+        <value>&lt;=</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DP_FLOAT_RANGE">
+    <!-- float range.-->
+    <ref name="DPHEADER"/>
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="DP_QUANT_VALUE1">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <element name="DP_QUANT_VALUE2">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+    <ref name="DP_CONFIDENTIAL2_YN"/>
+    <element name="DP_QUAL_VALUE1">
+      <choice>
+        <value>&gt;</value>
+        <value>&gt;=</value>
+      </choice>
+    </element>
+    <element name="DP_QUAL_VALUE2">
+      <choice>
+        <value>&lt;</value>
+        <value>&lt;=</value>
+      </choice>
+    </element>
+  </define>
+  <define name="DP_FLOAT_EXCEPTION">
+    <!-- float exception. -->
+    <ref name="DPHEADER"/>
+    <element name="DP_L1_KINGDOM_CODE">
+      <value>DP_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="DP_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="Q_CLOB">
+    <!-- comment -->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_CLOB</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="Q_CLOB1">
+      <data type="string" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="Q_VARCHAR2">
+    <!-- VARCHAR2 -->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_VARCHAR2</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+    <element name="Q_QUAL_VALUE1">
+      <data type="string" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+  </define>
+  <define name="Q_TAG">
+    <!-- tag (for searching)-->
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_TAG</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="Q_FLOAT_SINGLE">
+    <!-- single float. -->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="Q_QUANT_VALUE1">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="Q_FLOAT_GT">
+    <!-- float, greater than or greater than or equal to.-->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="Q_QUANT_VALUE1">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+    <element name="Q_QUAL_VALUE1">
+      <choice>
+        <value>&gt;</value>
+        <value>&gt;=</value>
+      </choice>
+    </element>
+  </define>
+  <define name="Q_FLOAT_LT">
+    <!-- float, less than or less than or equal to.-->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="Q_QUANT_VALUE2">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="Q_CONFIDENTIAL2_YN"/>
+    <element name="Q_QUAL_VALUE2">
+      <choice>
+        <value>&lt;</value>
+        <value>&lt;=</value>
+      </choice>
+    </element>
+  </define>
+  <define name="Q_FLOAT_RANGE">
+    <!-- float range.-->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="Q_QUANT_VALUE1">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <element name="Q_QUANT_VALUE2">
+      <data type="float" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+    <ref name="Q_CONFIDENTIAL2_YN"/>
+    <element name="Q_QUAL_VALUE1">
+      <choice>
+        <value>&gt;</value>
+        <value>&gt;=</value>
+      </choice>
+    </element>
+    <element name="Q_QUAL_VALUE2">
+      <choice>
+        <value>&lt;</value>
+        <value>&lt;=</value>
+      </choice>
+    </element>
+  </define>
+  <define name="Q_FLOAT_EXCEPTION">
+    <!-- single float. -->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_FLOAT</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="Q_INTEGER">
+    <!-- integer type -->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_INTEGER</value>
+    </element>
+    <ref name="FOOTER"/>
+    <element name="Q_INTEGER1">
+      <data type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+    </element>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+  </define>
+  <define name="Q_YN">
+    <!-- Yes or no -->
+    <ref name="QHEADER"/>
+    <element name="Q_L1_KINGDOM_CODE">
+      <value>Q_YN</value>
+    </element>
+    <ref name="FOOTER"/>
+    <ref name="Q_CONFIDENTIAL1_YN"/>
+    <element name="Q_QUAL_VALUE1">
+      <choice>
+        <value>Y</value>
+        <value>N</value>
+      </choice>
+    </element>
+  </define>
+</grammar>
+
